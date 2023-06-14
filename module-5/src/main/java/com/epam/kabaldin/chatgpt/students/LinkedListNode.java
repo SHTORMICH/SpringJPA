@@ -1,4 +1,4 @@
-package com.epam.kabaldin.chatgpt_for_students;
+package com.epam.kabaldin.chatgpt.students;
 
 public class LinkedListNode {
     int data;
