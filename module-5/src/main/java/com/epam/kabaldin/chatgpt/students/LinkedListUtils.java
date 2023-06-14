@@ -1,4 +1,4 @@
-package com.epam.kabaldin.chatgpt_for_students;
+package com.epam.kabaldin.chatgpt.students;
 
 public class LinkedListUtils {
     public static LinkedListNode findKthToLast(LinkedListNode head, int k) {
