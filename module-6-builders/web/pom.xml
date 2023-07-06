@@ -4,14 +4,6 @@
 
     <modelVersion>4.0.0</modelVersion>
     <packaging>war</packaging>
-    <dependencies>
-        <dependency>
-            <groupId>com.builders</groupId>
-            <artifactId>service</artifactId>
-            <version>1.0.0</version>
-            <scope>compile</scope>
-        </dependency>
-    </dependencies>
     <groupId>com.builders</groupId>
     <artifactId>web</artifactId>
     <version>1.0.0</version>
@@ -48,4 +40,13 @@
             </plugin>
         </plugins>
     </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.builders</groupId>
+            <artifactId>service</artifactId>
+            <version>1.0.0</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
 </project>
