@@ -1,0 +1,50 @@
+pipeline {
+    agent any
+    tools {
+        maven 'Maven'
+    }
+    parameters {
+            string(name: 'BUILD_TOOL', defaultValue: 'maven', description: 'Build Tool (maven/gradle)')
+    }
+    stages {
+        stage('SCM') {
+            steps {
+                script {
+                    git branch: 'develop', changelog: false, credentialsId: 'JenkinsJGMC', poll: false, url: 'https://git.epam.com/oleksandr_kabaldin/java-global-mentoring-program-ai.git'
+
+                }
+            }
+        }
+        stage('Build') {
+            steps {
+                script {
+                    if (params.BUILD_TOOL == 'maven') {
+                        bat '''
+                        echo "Buils starting..."
+                        cd module-6-builders
+                        mvn clean install
+                        '''
+                    } else if (params.BUILD_TOOL == 'gradle') {
+                        bat '''
+                        echo "Buils starting..."
+                        cd module-6-builders
+                        gradle clean build
+                        '''
+                    } else {
+                        error "Invalid build tool selected"
+                    }
+                }
+            }
+            post {
+                success {
+                    archiveArtifacts artifacts: '**/target/*.war'
+                }
+            }
+        }
+        stage('Deploy') {
+            steps {
+                deploy adapters: [tomcat8(credentialsId: '64546cb9-59c9-4189-b2a7-df6232cd40b8', path: '', url: 'http://localhost:8080')], contextPath: 'rpt', war: '**/*.war'
+            }
+        }
+    }
+}
