@@ -1,0 +1,115 @@
+1. SELECT primary_skill FROM student WHERE primary_skill LIKE '%-%' OR primary_skill LIKE '% %';
+
+2. SELECT * FROM student WHERE surname IS NULL OR LENGTH(surname) <= 2;
+
+3. SELECT subject.name, COUNT(exam_result.student_id) AS passed_students
+FROM subject
+LEFT JOIN exam_result ON subject.id = exam_result.subject_id
+WHERE exam_result.mark >= 50
+GROUP BY subject.name
+ORDER BY passed_students DESC;
+
+4. SELECT subject.name, exam_result.mark, COUNT(exam_result.student_id) AS students_with_same_marks
+FROM subject
+JOIN exam_result ON subject.id = exam_result.subject_id
+GROUP BY subject.name, exam_result.mark;
+
+5. SELECT s.id, s.name, s.surname
+FROM student s
+JOIN exam_result e ON s.id = e.student_id
+GROUP BY s.id, s.name, s.surname
+HAVING COUNT(DISTINCT e.subject_id) >= 2;
+
+6. SELECT s.id, s.name, s.surname, er.subject_id
+FROM student s
+JOIN exam_result er ON s.id = er.student_id
+GROUP BY s.id, s.name, s.surname, er.subject_id
+HAVING COUNT(DISTINCT er.id) >= 2;
+
+7. SELECT s.name
+FROM subject s
+JOIN exam_result er ON s.id = er.subject_id
+JOIN student st ON er.student_id = st.id
+GROUP BY s.name
+HAVING COUNT(DISTINCT st.primary_skill) = 1;
+
+8.1 SELECT s.id, s.name, s.surname
+FROM student s
+LEFT JOIN exam_result er ON s.id = er.student_id
+WHERE er.id IS NULL;
+
+8.2 SELECT s.id, s.name, s.surname
+FROM student s
+LEFT JOIN exam_result er ON s.id = er.student_id
+WHERE er.id IS NULL;
+
+8.3 SELECT id, name, surname
+FROM student
+WHERE id <> ANY (SELECT student_id FROM exam_result);
+
+9. SELECT id, name, surname
+FROM student
+WHERE id IN (
+    SELECT student_id
+    FROM exam_result
+    GROUP BY student_id
+    HAVING AVG(mark) > (
+        SELECT AVG(mark)
+        FROM exam_result
+    )
+);
+
+10. SELECT id, name, surname
+FROM student
+WHERE id IN (
+    SELECT student_id
+    FROM exam_result
+    GROUP BY student_id
+    HAVING AVG(mark) > (
+        SELECT AVG(mark)
+        FROM exam_result
+    )
+);
+
+11. SELECT s.id, s.name, s.surname, er.mark
+FROM student s
+JOIN exam_result er ON s.id = er.student_id
+WHERE er.id = (
+    SELECT id
+    FROM exam_result
+    WHERE student_id = s.id
+    ORDER BY created_datetime DESC
+    LIMIT 1
+)
+AND er.mark > (
+    SELECT AVG(mark)
+    FROM exam_result
+)
+ORDER BY er.mark DESC
+LIMIT 5;
+
+12. SELECT s.id, s.name, s.surname,
+       COALESCE(
+           CASE
+               WHEN MAX(er.mark) IS NULL THEN 'not passed'
+               WHEN MAX(er.mark) BETWEEN 1 AND 59 THEN 'BAD'
+               WHEN MAX(er.mark) BETWEEN 60 AND 74 THEN 'AVERAGE'
+               WHEN MAX(er.mark) BETWEEN 75 AND 89 THEN 'GOOD'
+               WHEN MAX(er.mark) BETWEEN 90 AND 100 THEN 'EXCELLENT'
+           END, 'not passed'
+       ) AS mark_description
+FROM student s
+LEFT JOIN exam_result er ON s.id = er.student_id
+GROUP BY s.id, s.name, s.surname;
+
+13. SELECT mark_type, COUNT(*) AS mark_count
+FROM (
+    SELECT CASE
+               WHEN mark BETWEEN 1 AND 59 THEN 'BAD'
+               WHEN mark BETWEEN 60 AND 74 THEN 'AVERAGE'
+               WHEN mark BETWEEN 75 AND 89 THEN 'GOOD'
+               WHEN mark BETWEEN 90 AND 100 THEN 'EXCELLENT'
+           END AS mark_type
+    FROM exam_result
+) AS marks
+GROUP BY mark_type;
