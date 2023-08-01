@@ -1,0 +1,6 @@
+user,1,John Doe,johndoe@example.com
+user,2,2,Jane Smith,janesmith@example.com
+event,1,Java Conference,2023-08-15
+event,2,Python Workshop,2023-09-20
+ticket,1,1,1,STANDARD,25
+ticket,2,1,2,PREMIUM,50
