@@ -9,8 +9,13 @@
            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
+    <context:annotation-config/>
+    <context:component-scan base-package="com.epam.kabaldin"/>
+
     <context:property-placeholder location="classpath:application.properties" />
+
     <bean id="storage" class="java.util.HashMap"/>
+
     <bean id="storageInitializer" class="com.epam.kabaldin.storage.StorageInitializer">
         <property name="storageSourceFile" value="${storage.source.file}" />
     </bean>

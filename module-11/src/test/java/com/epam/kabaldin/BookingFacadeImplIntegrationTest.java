@@ -27,7 +27,7 @@ public class BookingFacadeImplIntegrationTest {
 
     @BeforeEach
     public void setUp() {
-        ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+        ApplicationContext context = new ClassPathXmlApplicationContext("src/main/webapp/WEB-INF/applicationContext.xml");
         bookingFacade = context.getBean(BookingFacadeImpl.class);
     }
 

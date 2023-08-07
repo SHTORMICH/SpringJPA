@@ -3,10 +3,15 @@ package com.epam.kabaldin.facade;
 import com.epam.kabaldin.model.Event;
 import com.epam.kabaldin.model.Ticket;
 import com.epam.kabaldin.model.User;
+import com.epam.kabaldin.model.impl.TicketBatch;
 import com.epam.kabaldin.service.EventService;
 import com.epam.kabaldin.service.TicketService;
 import com.epam.kabaldin.service.UserService;
+import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 
+import javax.xml.bind.JAXBException;
+import javax.xml.transform.Source;
+import java.io.File;
 import java.util.Date;
 import java.util.List;
 
@@ -99,5 +104,26 @@ public class BookingFacadeImpl implements BookingFacade {
     @Override
     public boolean cancelTicket(long ticketId) {
         return ticketService.cancelTicket(ticketId);
+    }
+
+    @Override
+    public void preloadTickets() {
+        File xmlFile = new File("/path/to/tickets.xml");
+
+        try {
+            Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
+            marshaller.setClassesToBeBound(TicketBatch.class);
+            marshaller.afterPropertiesSet();
+
+            TicketBatch ticketBatch = (TicketBatch) marshaller.unmarshal((Source) xmlFile);
+
+            for (Ticket ticket : ticketBatch.getTickets()) {
+                ticketService.bookTicket(ticket.getUserId(), ticket.getEventId(), ticket.getPlace(), ticket.getCategory());
+            }
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -1,8 +1,11 @@
 package com.epam.kabaldin.model.impl;
 
-import com.epam.kabaldin.model.Entity;
 import com.epam.kabaldin.model.Ticket;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = "ticket")
 public class TicketImpl implements Ticket {
     private long id;
     private long eventId;
@@ -39,6 +42,7 @@ public class TicketImpl implements Ticket {
         this.id = id;
     }
 
+    @XmlAttribute(name = "eventId")
     @Override
     public long getEventId() {
         return eventId;
@@ -49,16 +53,18 @@ public class TicketImpl implements Ticket {
         this.eventId = eventId;
     }
 
+    @XmlAttribute(name = "userId")
     @Override
     public long getUserId() {
         return userId;
     }
 
     @Override
-    public void setUserId(long userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
+    @XmlAttribute(name = "category")
     @Override
     public Category getCategory() {
         return category;
@@ -69,6 +75,7 @@ public class TicketImpl implements Ticket {
         this.category = category;
     }
 
+    @XmlAttribute(name = "place")
     @Override
     public int getPlace() {
         return place;

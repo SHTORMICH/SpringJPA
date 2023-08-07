@@ -103,7 +103,7 @@ public class TicketDAOImplTest {
 
     @Test
     public void deleteTicket_ShouldRemoveTicketFromStorage() {
-        boolean isDeleted = ticketDAO.deleteTicket(1L);
+        boolean isDeleted = ticketDAO.cancelTicket(1L);
 
         assertTrue(isDeleted);
     }

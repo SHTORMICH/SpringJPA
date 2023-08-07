@@ -10,6 +10,6 @@ public interface TicketDAO {
     List<Ticket> getTicketsByUserId(long userId, int pageSize, int pageNum);
     List<Ticket> getTicketsByEventId(long eventId, int pageSize, int pageNum);
     Ticket updateTicket(Ticket ticket);
-    boolean deleteTicket(long ticketId);
+    boolean cancelTicket(long ticketId);
 }
 

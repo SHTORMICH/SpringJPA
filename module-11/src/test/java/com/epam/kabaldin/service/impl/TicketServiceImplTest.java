@@ -77,11 +77,11 @@ public class TicketServiceImplTest {
     void testCancelTicket() {
         long ticketId = 42L;
 
-        when(ticketDAO.deleteTicket(ticketId)).thenReturn(true);
+        when(ticketDAO.cancelTicket(ticketId)).thenReturn(true);
 
         boolean result = ticketService.cancelTicket(ticketId);
 
-        verify(ticketDAO, times(1)).deleteTicket(ticketId);
+        verify(ticketDAO, times(1)).cancelTicket(ticketId);
 
         assertEquals(true, result);
     }

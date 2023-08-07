@@ -139,4 +139,5 @@ public interface BookingFacade {
      */
     boolean cancelTicket(long ticketId);
 
+    public void preloadTickets();
 }
