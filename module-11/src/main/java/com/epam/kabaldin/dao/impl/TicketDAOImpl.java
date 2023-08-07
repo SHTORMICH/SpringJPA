@@ -78,10 +78,10 @@ public class TicketDAOImpl implements TicketDAO {
     }
 
     @Override
-    public boolean deleteTicket(long ticketId) {
-        for (Ticket ticketForDelete : ticketStorage) {
-            if (ticketForDelete.getId() == ticketId) {
-                ticketStorage.remove(ticketForDelete);
+    public boolean cancelTicket(long ticketId) {
+        for (Ticket ticketForCancel : ticketStorage) {
+            if (ticketForCancel.getId() == ticketId) {
+                ticketForCancel.setUserId(null);
                 return true;
             }
         }

@@ -35,7 +35,7 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public boolean cancelTicket(long ticketId) {
-        return ticketDAO.deleteTicket(ticketId);
+        return ticketDAO.cancelTicket(ticketId);
     }
 }
 
