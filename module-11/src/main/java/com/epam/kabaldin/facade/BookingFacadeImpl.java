@@ -3,31 +3,38 @@ package com.epam.kabaldin.facade;
 import com.epam.kabaldin.model.Event;
 import com.epam.kabaldin.model.Ticket;
 import com.epam.kabaldin.model.User;
-import com.epam.kabaldin.model.impl.TicketBatch;
+import com.epam.kabaldin.model.UserAccount;
+import com.epam.kabaldin.model.impl.EventImpl;
+import com.epam.kabaldin.model.impl.TicketImpl;
+import com.epam.kabaldin.model.impl.UserImpl;
 import com.epam.kabaldin.service.EventService;
 import com.epam.kabaldin.service.TicketService;
+import com.epam.kabaldin.service.UserAccountService;
 import com.epam.kabaldin.service.UserService;
-import org.springframework.oxm.jaxb.Jaxb2Marshaller;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import javax.xml.bind.JAXBException;
-import javax.xml.transform.Source;
-import java.io.File;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
+@Service
 public class BookingFacadeImpl implements BookingFacade {
     private final UserService userService;
     private final EventService eventService;
     private final TicketService ticketService;
+    private final UserAccountService userAccountService;
 
-    public BookingFacadeImpl(UserService userService, EventService eventService, TicketService ticketService) {
+    @Autowired
+    public BookingFacadeImpl(UserService userService, EventService eventService, TicketService ticketService, UserAccountService userAccountService) {
         this.userService = userService;
         this.eventService = eventService;
         this.ticketService = ticketService;
+        this.userAccountService = userAccountService;
     }
 
     @Override
-    public Event getEventById(long eventId) {
+    public Optional<Event> getEventById(long eventId) {
         return eventService.getEventById(eventId);
     }
 
@@ -57,7 +64,7 @@ public class BookingFacadeImpl implements BookingFacade {
     }
 
     @Override
-    public User getUserById(long userId) {
+    public Optional<User> getUserById(long userId) {
         return userService.getUserById(userId);
     }
 
@@ -87,18 +94,32 @@ public class BookingFacadeImpl implements BookingFacade {
     }
 
     @Override
-    public Ticket bookTicket(long userId, long eventId, int place, Ticket.Category category) {
-        return ticketService.bookTicket(userId, eventId, place, category);
+    public Optional<Ticket> getTicket(Long ticketId) {
+        return ticketService.getTicket(ticketId);
     }
 
     @Override
-    public List<Ticket> getBookedTickets(User user, int pageSize, int pageNum) {
-        return ticketService.getBookedTickets(user, pageSize, pageNum);
+    public Ticket bookTicket(Long userId, Long eventId, int place, Ticket.Category category) {
+        User user = new UserImpl();
+        user.setId(userId);
+        Event event = new EventImpl();
+        event.setId(eventId);
+        Ticket ticket = new TicketImpl();
+        ticket.setUser(user);
+        ticket.setEvent(event);
+        ticket.setPlace(place);
+        ticket.setCategory(category);
+        return ticketService.bookTicket(ticket);
     }
 
     @Override
-    public List<Ticket> getBookedTickets(Event event, int pageSize, int pageNum) {
-        return ticketService.getBookedTickets(event, pageSize, pageNum);
+    public List<Ticket> getBookedTicketsByUser(Optional<User> user, int pageSize, int pageNum) {
+        return ticketService.getBookedTicketsByUser(user, pageSize, pageNum);
+    }
+
+    @Override
+    public List<Ticket> getBookedTicketsByEvent(Optional<Event> event, int pageSize, int pageNum) {
+        return ticketService.getBookedTicketsByEvent(event, pageSize, pageNum);
     }
 
     @Override
@@ -107,8 +128,23 @@ public class BookingFacadeImpl implements BookingFacade {
     }
 
     @Override
+    public void refillUserAccount(long userId, Long amount) {
+        userAccountService.refillAccount(userId, amount);
+    }
+
+    @Override
+    public boolean returnMoneyToUser(UserAccount userAccount) {
+        return userAccountService.updateUserAccount(userAccount);
+    }
+
+    @Override
+    public Optional<UserAccount> getUserAccountById(Long accountId) {
+        return userAccountService.getUserAccountById(accountId);
+    }
+
+    @Override
     public void preloadTickets() {
-        File xmlFile = new File("/path/to/tickets.xml");
+        /*File xmlFile = new File("/path/to/tickets.xml");
 
         try {
             Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
@@ -118,12 +154,12 @@ public class BookingFacadeImpl implements BookingFacade {
             TicketBatch ticketBatch = (TicketBatch) marshaller.unmarshal((Source) xmlFile);
 
             for (Ticket ticket : ticketBatch.getTickets()) {
-                ticketService.bookTicket(ticket.getUserId(), ticket.getEventId(), ticket.getPlace(), ticket.getCategory());
+                ticketService.bookTicket(ticket.getUser(), ticket.getEvent(), ticket.getPlace(), ticket.getCategory());
             }
         } catch (JAXBException e) {
             e.printStackTrace();
         } catch (Exception e) {
             throw new RuntimeException(e);
-        }
+        }*/
     }
 }

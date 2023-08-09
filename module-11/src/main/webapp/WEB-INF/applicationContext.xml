@@ -12,33 +12,21 @@
     <context:annotation-config/>
     <context:component-scan base-package="com.epam.kabaldin"/>
 
-    <context:property-placeholder location="classpath:application.properties" />
+    <context:property-placeholder location="classpath:application.properties"/>
 
-    <bean id="storage" class="java.util.HashMap"/>
-
-    <bean id="storageInitializer" class="com.epam.kabaldin.storage.StorageInitializer">
-        <property name="storageSourceFile" value="${storage.source.file}" />
-    </bean>
-
-   <bean id="userDAO" class="com.epam.kabaldin.dao.impl.UserDAOImpl" init-method="init">
-       <property name="storage" ref="storage"/>
-   </bean>
-
-   <bean id="eventDAO" class="com.epam.kabaldin.dao.impl.EventDAOImpl" init-method="init">
-       <property name="storage" ref="storage"/>
-   </bean>
-
-    <bean id="ticketDAO" class="com.epam.kabaldin.dao.impl.TicketDAOImpl" init-method="init">
-        <property name="storage" ref="storage"/>
-    </bean>
+   <bean id="userDAO" class="com.epam.kabaldin.dao.impl.UserDAOImpl"/>
+   <bean id="eventDAO" class="com.epam.kabaldin.dao.impl.EventDAOImpl"/>
+    <bean id="ticketDAO" class="com.epam.kabaldin.dao.impl.TicketDAOImpl"/>
 
     <bean id="userService" class="com.epam.kabaldin.service.impl.UserServiceImpl" autowire="byName"/>
     <bean id="eventService" class="com.epam.kabaldin.service.impl.EventServiceImpl" autowire="byName"/>
     <bean id="ticketService" class="com.epam.kabaldin.service.impl.TicketServiceImpl" autowire="byName"/>
+    <bean id="userAccountService" class="com.epam.kabaldin.service.impl.UserAccountServiceImpl" autowire="byName"/>
 
     <bean id="bookingFacade" class="com.epam.kabaldin.facade.BookingFacadeImpl">
         <constructor-arg ref="userService"/>
         <constructor-arg ref="eventService"/>
         <constructor-arg ref="ticketService"/>
+        <constructor-arg ref="userAccountService"/>
     </bean>
 </beans>

@@ -12,10 +12,10 @@ public interface Ticket extends Entity {
      */
     long getId();
     void setId(long id);
-    long getEventId();
-    void setEventId(long eventId);
-    long getUserId();
-    void setUserId(Long userId);
+    Event getEvent();
+    void setEvent(Event event);
+    User getUser();
+    void setUser(User user);
     Category getCategory();
     void setCategory(Category category);
     int getPlace();

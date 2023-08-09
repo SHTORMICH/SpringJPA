@@ -3,9 +3,11 @@ package com.epam.kabaldin.facade;
 import com.epam.kabaldin.model.Event;
 import com.epam.kabaldin.model.Ticket;
 import com.epam.kabaldin.model.User;
+import com.epam.kabaldin.model.UserAccount;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Groups together all operations related to tickets booking.
@@ -15,9 +17,10 @@ public interface BookingFacade {
 
     /**
      * Gets event by its id.
+     *
      * @return Event.
      */
-    Event getEventById(long eventId);
+    Optional<Event> getEventById(long eventId);
 
     /**
      * Get list of events by matching title. Title is matched using 'contains' approach.
@@ -62,9 +65,10 @@ public interface BookingFacade {
 
     /**
      * Gets user by its id.
+     *
      * @return User.
      */
-    User getUserById(long userId);
+    Optional<User> getUserById(long userId);
 
     /**
      * Gets user by its email. Email is strictly matched.
@@ -103,6 +107,8 @@ public interface BookingFacade {
      */
     boolean deleteUser(long userId);
 
+    Optional<Ticket> getTicket(Long ticketId);
+
     /**
      * Book ticket for a specified event on behalf of specified user.
      * @param userId User Id.
@@ -112,7 +118,7 @@ public interface BookingFacade {
      * @return Booked ticket object.
      * @throws java.lang.IllegalStateException if this place has already been booked.
      */
-    Ticket bookTicket(long userId, long eventId, int place, Ticket.Category category);
+    Ticket bookTicket(Long userId, Long eventId, int place, Ticket.Category category);
 
     /**
      * Get all booked tickets for specified user. Tickets should be sorted by event date in descending order.
@@ -121,7 +127,7 @@ public interface BookingFacade {
      * @param pageNum Pagination param. Number of the page to return. Starts from 1.
      * @return List of Ticket objects.
      */
-    List<Ticket> getBookedTickets(User user, int pageSize, int pageNum);
+    List<Ticket> getBookedTicketsByUser(Optional<User> user, int pageSize, int pageNum);
 
     /**
      * Get all booked tickets for specified event. Tickets should be sorted in by user email in ascending order.
@@ -130,7 +136,7 @@ public interface BookingFacade {
      * @param pageNum Pagination param. Number of the page to return. Starts from 1.
      * @return List of Ticket objects.
      */
-    List<Ticket> getBookedTickets(Event event, int pageSize, int pageNum);
+    List<Ticket> getBookedTicketsByEvent(Optional<Event> event, int pageSize, int pageNum);
 
     /**
      * Cancel ticket with a specified id.
@@ -139,5 +145,11 @@ public interface BookingFacade {
      */
     boolean cancelTicket(long ticketId);
 
+    void refillUserAccount(long userId, Long amount);
+
+    Optional<UserAccount> getUserAccountById(Long accountId);
+
     public void preloadTickets();
+
+    boolean returnMoneyToUser(UserAccount userAccount);
 }

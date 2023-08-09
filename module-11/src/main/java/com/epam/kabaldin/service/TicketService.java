@@ -5,10 +5,12 @@ import com.epam.kabaldin.model.Ticket;
 import com.epam.kabaldin.model.User;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface TicketService {
-    public Ticket bookTicket(long userId, long eventId, int place, Ticket.Category category);
-    public List<Ticket> getBookedTickets(User user, int pageSize, int pageNum);
-    public List<Ticket> getBookedTickets(Event event, int pageSize, int pageNum);
+    Optional<Ticket> getTicket(Long ticketId);
+    public Ticket bookTicket(Ticket ticket);
+    public List<Ticket> getBookedTicketsByUser(Optional<User> user, int pageSize, int pageNum);
+    public List<Ticket> getBookedTicketsByEvent(Optional<Event> event, int pageSize, int pageNum);
     public boolean cancelTicket(long ticketId);
 }

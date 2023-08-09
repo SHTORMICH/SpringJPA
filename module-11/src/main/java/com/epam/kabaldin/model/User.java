@@ -13,6 +13,10 @@ public interface User extends Entity{
     String getName();
     void setName(String name);
 
+    UserAccount getUserAccount();
+
+    void setUserAccount(UserAccount userAccount);
+
     /**
      * User email. UNIQUE.
      * @return User email.
