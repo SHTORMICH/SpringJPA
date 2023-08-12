@@ -19,7 +19,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/api/pdf")
@@ -37,7 +36,7 @@ public class PdfBookingController {
                                     @RequestParam int pageSize,
                                     @RequestParam int pageNum,
                                     HttpServletResponse response) throws IOException {
-        Optional<User> user = bookingFacade.getUserById(userId);
+        User user = bookingFacade.getUserById(userId);
         List<Ticket> bookedTickets = bookingFacade.getBookedTicketsByUser(user, pageSize, pageNum);
 
         byte[] pdfData = generatePdf(bookedTickets);

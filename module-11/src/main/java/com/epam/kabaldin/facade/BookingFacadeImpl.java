@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class BookingFacadeImpl implements BookingFacade {
@@ -34,7 +33,7 @@ public class BookingFacadeImpl implements BookingFacade {
     }
 
     @Override
-    public Optional<Event> getEventById(long eventId) {
+    public Event getEventById(long eventId) {
         return eventService.getEventById(eventId);
     }
 
@@ -64,7 +63,7 @@ public class BookingFacadeImpl implements BookingFacade {
     }
 
     @Override
-    public Optional<User> getUserById(long userId) {
+    public User getUserById(long userId) {
         return userService.getUserById(userId);
     }
 
@@ -94,7 +93,7 @@ public class BookingFacadeImpl implements BookingFacade {
     }
 
     @Override
-    public Optional<Ticket> getTicket(Long ticketId) {
+    public Ticket getTicket(Long ticketId) {
         return ticketService.getTicket(ticketId);
     }
 
@@ -113,12 +112,12 @@ public class BookingFacadeImpl implements BookingFacade {
     }
 
     @Override
-    public List<Ticket> getBookedTicketsByUser(Optional<User> user, int pageSize, int pageNum) {
+    public List<Ticket> getBookedTicketsByUser(User user, int pageSize, int pageNum) {
         return ticketService.getBookedTicketsByUser(user, pageSize, pageNum);
     }
 
     @Override
-    public List<Ticket> getBookedTicketsByEvent(Optional<Event> event, int pageSize, int pageNum) {
+    public List<Ticket> getBookedTicketsByEvent(Event event, int pageSize, int pageNum) {
         return ticketService.getBookedTicketsByEvent(event, pageSize, pageNum);
     }
 
@@ -138,28 +137,7 @@ public class BookingFacadeImpl implements BookingFacade {
     }
 
     @Override
-    public Optional<UserAccount> getUserAccountById(Long accountId) {
+    public UserAccount getUserAccountById(Long accountId) {
         return userAccountService.getUserAccountById(accountId);
-    }
-
-    @Override
-    public void preloadTickets() {
-        /*File xmlFile = new File("/path/to/tickets.xml");
-
-        try {
-            Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
-            marshaller.setClassesToBeBound(TicketBatch.class);
-            marshaller.afterPropertiesSet();
-
-            TicketBatch ticketBatch = (TicketBatch) marshaller.unmarshal((Source) xmlFile);
-
-            for (Ticket ticket : ticketBatch.getTickets()) {
-                ticketService.bookTicket(ticket.getUser(), ticket.getEvent(), ticket.getPlace(), ticket.getCategory());
-            }
-        } catch (JAXBException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }*/
     }
 }

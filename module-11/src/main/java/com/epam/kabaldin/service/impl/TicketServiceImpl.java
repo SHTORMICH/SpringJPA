@@ -4,15 +4,17 @@ import com.epam.kabaldin.dao.TicketDAO;
 import com.epam.kabaldin.model.Event;
 import com.epam.kabaldin.model.Ticket;
 import com.epam.kabaldin.model.User;
+import com.epam.kabaldin.model.impl.TicketImpl;
 import com.epam.kabaldin.service.TicketService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Service;
 
-import java.awt.print.Pageable;
+import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Optional;
 
+@Transactional
 public class TicketServiceImpl implements TicketService {
     private TicketDAO ticketDAO;
 
@@ -21,30 +23,35 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public Optional<Ticket> getTicket (Long ticketId) {
-        return ticketDAO.findById(ticketId);
+    public Ticket getTicket (Long ticketId) {
+        Optional<TicketImpl> ticketOp = ticketDAO.findById(ticketId);
+        ticketOp.isPresent();
+        return ticketOp.get();
     }
     @Override
     public Ticket bookTicket(Ticket ticket) {
-        ticketDAO.save(ticket);
+        ticketDAO.save((TicketImpl) ticket);
         return ticket;
     }
 
     @Override
-    public List<Ticket> getBookedTicketsByUser(Optional<User> user, int pageSize, int pageNum) {
-        Pageable pageable = (Pageable) PageRequest.of(pageNum, pageSize);
-        return ticketDAO.findAllById(user.get().getId(),  pageable);
+    public List<Ticket> getBookedTicketsByUser(User user, int pageSize, int pageNum) {
+        Pageable pageable = PageRequest.of(pageNum, pageSize);
+        return ticketDAO.findAllById(user.getId(),  pageable);
     }
 
     @Override
-    public List<Ticket> getBookedTicketsByEvent(Optional<Event> event, int pageSize, int pageNum) {
-        Pageable pageable = (Pageable) PageRequest.of(pageNum, pageSize);
-        return ticketDAO.findAllById(event.get().getId(), pageable);
+    public List<Ticket> getBookedTicketsByEvent(Event event, int pageSize, int pageNum) {
+        Pageable pageable = PageRequest.of(pageNum, pageSize);
+        return ticketDAO.findAllById(event.getId(), pageable);
     }
 
     @Override
     public boolean cancelTicket(long ticketId) {
-        return ticketDAO.cancelTicket(ticketId);
+        Ticket ticket = getTicket(ticketId);
+        ticket.setUser(null);
+        ticketDAO.save((TicketImpl) ticket);
+        return true;
     }
 }
 

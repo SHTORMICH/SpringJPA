@@ -7,7 +7,6 @@ import com.epam.kabaldin.model.UserAccount;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Groups together all operations related to tickets booking.
@@ -20,7 +19,7 @@ public interface BookingFacade {
      *
      * @return Event.
      */
-    Optional<Event> getEventById(long eventId);
+    Event getEventById(long eventId);
 
     /**
      * Get list of events by matching title. Title is matched using 'contains' approach.
@@ -68,7 +67,7 @@ public interface BookingFacade {
      *
      * @return User.
      */
-    Optional<User> getUserById(long userId);
+    User getUserById(long userId);
 
     /**
      * Gets user by its email. Email is strictly matched.
@@ -107,7 +106,7 @@ public interface BookingFacade {
      */
     boolean deleteUser(long userId);
 
-    Optional<Ticket> getTicket(Long ticketId);
+    Ticket getTicket(Long ticketId);
 
     /**
      * Book ticket for a specified event on behalf of specified user.
@@ -127,7 +126,7 @@ public interface BookingFacade {
      * @param pageNum Pagination param. Number of the page to return. Starts from 1.
      * @return List of Ticket objects.
      */
-    List<Ticket> getBookedTicketsByUser(Optional<User> user, int pageSize, int pageNum);
+    List<Ticket> getBookedTicketsByUser(User user, int pageSize, int pageNum);
 
     /**
      * Get all booked tickets for specified event. Tickets should be sorted in by user email in ascending order.
@@ -136,7 +135,7 @@ public interface BookingFacade {
      * @param pageNum Pagination param. Number of the page to return. Starts from 1.
      * @return List of Ticket objects.
      */
-    List<Ticket> getBookedTicketsByEvent(Optional<Event> event, int pageSize, int pageNum);
+    List<Ticket> getBookedTicketsByEvent(Event event, int pageSize, int pageNum);
 
     /**
      * Cancel ticket with a specified id.
@@ -147,9 +146,7 @@ public interface BookingFacade {
 
     void refillUserAccount(long userId, Long amount);
 
-    Optional<UserAccount> getUserAccountById(Long accountId);
-
-    public void preloadTickets();
+    UserAccount getUserAccountById(Long accountId);
 
     boolean returnMoneyToUser(UserAccount userAccount);
 }
