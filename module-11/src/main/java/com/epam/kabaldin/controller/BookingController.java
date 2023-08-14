@@ -5,11 +5,11 @@ import com.epam.kabaldin.model.Event;
 import com.epam.kabaldin.model.Ticket;
 import com.epam.kabaldin.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -31,7 +31,7 @@ public class BookingController {
         modelAndView.addObject("event", event);
         return modelAndView;
     }
-    @RequestMapping(method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+
     @GetMapping("/events")
     public ModelAndView getEventsByTitle(@RequestParam("title") String title,
                                          @RequestParam int pageSize,
@@ -106,7 +106,7 @@ public class BookingController {
                              @RequestParam Long eventId,
                              @RequestBody Ticket ticket) {
         Ticket bookedTicket = bookingFacade.bookTicket(userId, eventId, ticket.getPlace(), ticket.getCategory());
-        Long ticketPrice = bookingFacade.getEventById(eventId).getTicketPrice();
+        BigDecimal ticketPrice = bookingFacade.getEventById(eventId).getTicketPrice();
         bookingFacade.refillUserAccount(userId, ticketPrice);
         return bookedTicket;
     }

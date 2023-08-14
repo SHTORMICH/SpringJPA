@@ -23,7 +23,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserById(Long userId) {
         Optional<UserImpl> userOp = userDAO.findById(userId);
-        userOp.isPresent();
         return userOp.get();
     }
 
@@ -40,13 +39,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createUser(User user) {
-        userDAO.save(((UserImpl) user));
+        userDAO.save(user);
         return user;
     }
 
     @Override
     public User updateUser(User user) {
-        userDAO.save(((UserImpl) user));
+        userDAO.save(user);
         return user;
     }
 

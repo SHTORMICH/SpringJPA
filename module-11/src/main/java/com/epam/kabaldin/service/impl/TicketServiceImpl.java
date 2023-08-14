@@ -25,12 +25,11 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public Ticket getTicket (Long ticketId) {
         Optional<TicketImpl> ticketOp = ticketDAO.findById(ticketId);
-        ticketOp.isPresent();
         return ticketOp.get();
     }
     @Override
     public Ticket bookTicket(Ticket ticket) {
-        ticketDAO.save((TicketImpl) ticket);
+        ticketDAO.save(ticket);
         return ticket;
     }
 
@@ -50,7 +49,7 @@ public class TicketServiceImpl implements TicketService {
     public boolean cancelTicket(long ticketId) {
         Ticket ticket = getTicket(ticketId);
         ticket.setUser(null);
-        ticketDAO.save((TicketImpl) ticket);
+        ticketDAO.save(ticket);
         return true;
     }
 }

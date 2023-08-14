@@ -14,6 +14,7 @@ import com.epam.kabaldin.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -127,7 +128,7 @@ public class BookingFacadeImpl implements BookingFacade {
     }
 
     @Override
-    public void refillUserAccount(long userId, Long amount) {
+    public void refillUserAccount(long userId, BigDecimal amount) {
         userAccountService.refillAccount(userId, amount);
     }
 

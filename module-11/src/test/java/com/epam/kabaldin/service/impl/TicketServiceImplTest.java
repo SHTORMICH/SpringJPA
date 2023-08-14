@@ -55,7 +55,7 @@ public class TicketServiceImplTest {
 
         assertNotNull(result);
         assertEquals(ticket, result);
-        verify(ticketDAO, times(1)).save((TicketImpl) ticket);
+        verify(ticketDAO, times(1)).save(ticket);
     }
 
     @Test
@@ -98,6 +98,6 @@ public class TicketServiceImplTest {
 
         assertTrue(result);
         assertNull(ticket.getUser());
-        verify(ticketDAO, times(1)).save((TicketImpl) ticket);
+        verify(ticketDAO, times(1)).save(ticket);
     }
 }

@@ -5,6 +5,7 @@ import com.epam.kabaldin.model.Ticket;
 import com.epam.kabaldin.model.User;
 import com.epam.kabaldin.model.UserAccount;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -144,7 +145,7 @@ public interface BookingFacade {
      */
     boolean cancelTicket(long ticketId);
 
-    void refillUserAccount(long userId, Long amount);
+    void refillUserAccount(long userId, BigDecimal amount);
 
     UserAccount getUserAccountById(Long accountId);
 

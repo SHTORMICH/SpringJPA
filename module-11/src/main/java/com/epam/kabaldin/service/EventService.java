@@ -4,7 +4,6 @@ import com.epam.kabaldin.model.Event;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 public interface EventService {
     public Event getEventById(Long eventId);

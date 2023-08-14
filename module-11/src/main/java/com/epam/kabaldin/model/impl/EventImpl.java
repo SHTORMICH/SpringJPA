@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
@@ -22,7 +23,7 @@ public class EventImpl implements Event {
     private Date date;
 
     @Column(name = "ticket_price")
-    private Long ticketPrice;
+    private BigDecimal ticketPrice;
 
     @Override
     public long getId() {
@@ -55,12 +56,12 @@ public class EventImpl implements Event {
     }
 
     @Override
-    public Long getTicketPrice() {
+    public BigDecimal getTicketPrice() {
         return ticketPrice;
     }
 
     @Override
-    public void setTicketPrice(Long ticketPrice) {
+    public void setTicketPrice(BigDecimal ticketPrice) {
         this.ticketPrice = ticketPrice;
     }
 }

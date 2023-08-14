@@ -6,6 +6,7 @@ import com.epam.kabaldin.model.impl.UserAccountImpl;
 import com.epam.kabaldin.service.UserAccountService;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 @Transactional
@@ -15,20 +16,19 @@ public class UserAccountServiceImpl implements UserAccountService {
     @Override
     public UserAccount getUserAccountById(Long id) {
         Optional<UserAccountImpl> userAccountOp = userAccountDAO.findById(id);
-        userAccountOp.isPresent();
         return userAccountOp.get();
     }
 
     @Override
     public boolean updateUserAccount(UserAccount userAccount) {
-        userAccountDAO.save(((UserAccountImpl) userAccount));
+        userAccountDAO.save(userAccount);
         return true;
     }
 
     @Override
-    public void refillAccount(Long userId, Long amount) {
-        UserAccountImpl userAccount = userAccountDAO.findById(userId).get();
-        userAccount.setPrepaidMoney(userAccount.getPrepaidMoney() + amount);
+    public void refillAccount(Long userId, BigDecimal amount) {
+        UserAccount userAccount = userAccountDAO.findById(userId).get();
+        userAccount.setPrepaidMoney(userAccount.getPrepaidMoney().add(amount));
         userAccountDAO.save(userAccount);
     }
 }

@@ -82,7 +82,7 @@ public class EventServiceImplTest {
 
         assertNotNull(result);
         assertEquals(event, result);
-        verify(eventDAO, times(1)).save((EventImpl) event);
+        verify(eventDAO, times(1)).save(event);
     }
 
     @Test
@@ -93,7 +93,7 @@ public class EventServiceImplTest {
 
         assertNotNull(result);
         assertEquals(event, result);
-        verify(eventDAO, times(1)).save((EventImpl) event);
+        verify(eventDAO, times(1)).save(event);
     }
 
     @Test

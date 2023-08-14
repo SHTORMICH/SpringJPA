@@ -1,5 +1,6 @@
 package com.epam.kabaldin.model;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -16,6 +17,6 @@ public interface Event extends Entity {
     void setTitle(String title);
     Date getDate();
     void setDate(Date date);
-    Long getTicketPrice();
-    void setTicketPrice(Long ticketPrice);
+    BigDecimal getTicketPrice();
+    void setTicketPrice(BigDecimal ticketPrice);
 }

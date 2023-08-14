@@ -5,7 +5,6 @@ import com.epam.kabaldin.model.Ticket;
 import com.epam.kabaldin.model.User;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface TicketService {
     Ticket getTicket(Long ticketId);

@@ -9,6 +9,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -30,8 +31,8 @@ public class UserAccountServiceImplTest {
     @Test
     public void testGetUserAccountById() {
         Long accountId = 1L;
-        UserAccount userAccount = new UserAccountImpl();
-        when(userAccountDAO.findById(accountId)).thenReturn(Optional.of((UserAccountImpl) userAccount));
+        UserAccountImpl userAccount = new UserAccountImpl();
+        when(userAccountDAO.findById(accountId)).thenReturn(Optional.of(userAccount));
 
         UserAccount result = userAccountService.getUserAccountById(accountId);
 
@@ -46,20 +47,20 @@ public class UserAccountServiceImplTest {
         boolean result = userAccountService.updateUserAccount(userAccount);
 
         assertTrue(result);
-        verify(userAccountDAO, times(1)).save((UserAccountImpl) userAccount);
+        verify(userAccountDAO, times(1)).save(userAccount);
     }
 
     @Test
     public void testRefillAccount() {
         Long userId = 1L;
-        Long amount = 100L;
-        UserAccountImpl userAccount = new UserAccountImpl();
-        userAccount.setPrepaidMoney(200L);
-        when(userAccountDAO.findById(userId)).thenReturn(Optional.of(userAccount));
+        BigDecimal amount = BigDecimal.valueOf(100);
+        UserAccount userAccount = new UserAccountImpl();
+        userAccount.setPrepaidMoney(BigDecimal.valueOf(200));
+        when(userAccountDAO.findById(userId)).thenReturn(Optional.of((UserAccountImpl) userAccount));
 
         userAccountService.refillAccount(userId, amount);
 
-        assertEquals(300L, userAccount.getPrepaidMoney());
+        assertEquals(BigDecimal.valueOf(300), userAccount.getPrepaidMoney());
         verify(userAccountDAO, times(1)).save(userAccount);
     }
 }

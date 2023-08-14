@@ -78,7 +78,7 @@ public class UserServiceImplTest {
 
         assertNotNull(result);
         assertEquals(user, result);
-        verify(userDAO, times(1)).save((UserImpl) user);
+        verify(userDAO, times(1)).save(user);
     }
 
     @Test
@@ -89,7 +89,7 @@ public class UserServiceImplTest {
 
         assertNotNull(result);
         assertEquals(user, result);
-        verify(userDAO, times(1)).save((UserImpl) user);
+        verify(userDAO, times(1)).save(user);
     }
 
     @Test

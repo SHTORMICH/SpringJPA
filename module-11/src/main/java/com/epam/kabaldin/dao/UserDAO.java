@@ -12,6 +12,7 @@ import java.util.List;
 @Repository
 @Transactional
 public interface UserDAO extends CrudRepository<UserImpl, Long> {
+    User save (User user);
     User findByEmail(String email);
     List<User> findByName(String name, Pageable pageable);
 

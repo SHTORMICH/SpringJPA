@@ -4,9 +4,6 @@ import com.epam.kabaldin.dao.EventDAO;
 import com.epam.kabaldin.model.Event;
 import com.epam.kabaldin.model.impl.EventImpl;
 import com.epam.kabaldin.service.EventService;
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.data.domain.PageRequest;
 
 import org.springframework.data.domain.Pageable;
@@ -17,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Transactional
-public class EventServiceImpl implements EventService, ApplicationContextAware {
+public class EventServiceImpl implements EventService {
     private EventDAO eventDAO;
 
     public void setEventDAO(EventDAO eventDAO) {
@@ -25,15 +22,8 @@ public class EventServiceImpl implements EventService, ApplicationContextAware {
     }
 
     @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        System.out.println(applicationContext.getBean(EventDAO.class));
-        System.out.println("Hello world!");
-    }
-
-    @Override
     public Event getEventById(Long eventId) {
         Optional<EventImpl> eventOp = eventDAO.findById(eventId);
-        eventOp.isPresent();
         return eventOp.get();
     }
 
@@ -51,13 +41,13 @@ public class EventServiceImpl implements EventService, ApplicationContextAware {
 
     @Override
     public Event createEvent(Event event) {
-        eventDAO.save(((EventImpl) event));
+        eventDAO.save(event);
         return event;
     }
 
     @Override
     public Event updateEvent(Event event) {
-        eventDAO.save(((EventImpl) event));
+        eventDAO.save(event);
         return event;
     }
 
@@ -66,6 +56,4 @@ public class EventServiceImpl implements EventService, ApplicationContextAware {
         eventDAO.deleteById(eventId);
         return true;
     }
-
-
 }

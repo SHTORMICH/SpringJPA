@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "user_account")
@@ -16,7 +17,7 @@ public class UserAccountImpl implements UserAccount {
     private Long id;
 
     @Column(name = "prepaid_money")
-    private Long prepaidMoney;
+    private BigDecimal prepaidMoney;
 
     @Override
     public Long getId() {
@@ -29,12 +30,12 @@ public class UserAccountImpl implements UserAccount {
     }
 
     @Override
-    public Long getPrepaidMoney() {
+    public BigDecimal getPrepaidMoney() {
         return prepaidMoney;
     }
 
     @Override
-    public void setPrepaidMoney(Long prepaidMoney) {
+    public void setPrepaidMoney(BigDecimal prepaidMoney) {
         this.prepaidMoney = prepaidMoney;
     }
 }

@@ -12,6 +12,7 @@ import java.util.List;
 @Repository
 @Transactional
 public interface TicketDAO extends CrudRepository<TicketImpl, Long> {
+    Ticket save(Ticket ticket);
     List<Ticket> findAllById(Long id, Pageable pageable);
 }
 

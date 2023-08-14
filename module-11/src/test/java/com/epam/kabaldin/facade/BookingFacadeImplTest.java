@@ -20,6 +20,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 
@@ -188,7 +189,7 @@ class BookingFacadeImplTest {
     @Test
     void testRefillUserAccount() {
         long userId = 1L;
-        Long amount = 100L;
+        BigDecimal amount = BigDecimal.valueOf(100);
 
         doNothing().when(userAccountService).refillAccount(userId, amount);
 
